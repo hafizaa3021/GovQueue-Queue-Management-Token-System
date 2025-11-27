@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GovQueue - Required Documents</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    body {
+      background: #f8f9fa;
+      font-family: 'Poppins', sans-serif;
+      margin-bottom: 80px;
+    }
+
+    .navbar {
+      background: #495057;
+      padding: 0.8rem 1.5rem;
+    }
+
+    .navbar-brand {
+      color: white;
+      font-weight: 700;
+    }
+
+    .navbar-nav {
+      margin-left: auto;
+    }
+
+    .nav-link {
+      color: white;
+      margin-left: 15px;
+      text-decoration: none;
+    }
+
+    .nav-link:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      margin-top: 40px;
+    }
+
+    h2 {
+      margin-bottom: 30px;
+      color: #343a40;
+      text-align: center;
+    }
+
+    /* Document Cards */
+    .docs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      border-radius: 15px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      background: white;
+    }
+
+    .card h5 {
+      margin-bottom: 10px;
+      font-weight: 600;
+      color: #495057;
+    }
+
+    .card ul {
+      padding-left: 20px;
+      color: #6c757d;
+      font-size: 0.95rem;
+    }
+
+    /* Footer */
+    footer {
+      background: #343a40;
+      color: white;
+      text-align: center;
+      padding: 20px 0;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" href="#">GovQueue</a>
+    <div class="navbar-nav">
+      <a class="nav-link" href="index.html">Home</a>
+      <a class="nav-link" href="login.html">Login</a>
+      <a class="nav-link" href="signup.html">Signup</a>
+      <a class="nav-link" href="public_display.html">Live Tokens</a>
+
+    </div>
+  </nav>
+
+  <div class="container">
+    <h2>Required Documents for Services</h2>
+
+    <div class="docs-grid">
+      <div class="card">
+        <h5>Aadhar Card</h5>
+        <ul>
+          <li>Proof of Identity (Passport, PAN, Voter ID)</li>
+          <li>Proof of Address (Utility Bill, Rent Agreement)</li>
+          <li>Birth Certificate / Date of Birth Proof</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h5>Voter ID</h5>
+        <ul>
+          <li>Proof of Identity (Aadhar Card, PAN)</li>
+          <li>Proof of Residence (Electricity Bill, Ration Card)</li>
+          <li>Passport-size Photo</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h5>PAN Card</h5>
+        <ul>
+          <li>Proof of Identity (Aadhar, Passport)</li>
+          <li>Proof of Address (Bank Statement, Utility Bill)</li>
+          <li>Passport-size Photo</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h5>Passport</h5>
+        <ul>
+          <li>Proof of Identity (Aadhar, PAN, Voter ID)</li>
+          <li>Birth Certificate / School Certificate</li>
+          <li>Passport-size Photographs</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h5>Driving License</h5>
+        <ul>
+          <li>Age Proof (Birth Certificate, Passport)</li>
+          <li>Address Proof (Utility Bill, Rent Agreement)</li>
+          <li>Passport-size Photo</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h5>Ration Card</h5>
+        <ul>
+          <li>Proof of Residence (Electricity/Water Bill)</li>
+          <li>Family Photo ID (Birth Certificate, Aadhar)</li>
+          <li>Passport-size Photo</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h5>Tax Filing</h5>
+        <ul>
+          <li>PAN Card</li>
+          <li>Bank Statements</li>
+          <li>Income Proof (Salary Slip, Form 16)</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h5>Utility Bill</h5>
+        <ul>
+          <li>Previous Bill Copy</li>
+          <li>Meter ID / Account Number</li>
+          <li>ID Proof (Aadhar, Passport)</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h5>Pension</h5>
+        <ul>
+          <li>PAN Card</li>
+          <li>Bank Account Details</li>
+          <li>Retirement / Service Proof</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h5>Vehicle Registration</h5>
+        <ul>
+          <li>Vehicle Purchase Invoice</li>
+          <li>Insurance Certificate</li>
+          <li>Identity & Address Proof (Aadhar, PAN)</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 GovQueue. All rights reserved.
+  </footer>
+  <script>
+    // NEW SCRIPT for dynamic navbar
+    document.addEventListener('DOMContentLoaded', () => {
+      const navLinks = document.getElementById('nav-links');
+      const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+
+      if (loggedInUser && loggedInUser.name) {
+        // If user is logged in
+        navLinks.innerHTML = `
+                <span class="navbar-text text-white me-3">Welcome, ${loggedInUser.name}</span>
+                <a class="nav-link" href="user_dashboard.html">Dashboard</a>
+                <a class="nav-link" href="profile.html">Profile</a>
+                <a class="nav-link" href="#" onclick="localStorage.clear(); window.location.href='login.html';">Logout</a>
+            `;
+      } else {
+        // If user is not logged in
+        navLinks.innerHTML = `
+                <a class="nav-link" href="index.html">Home</a>
+                <a class="nav-link" href="login.html">Login</a>
+                <a class="nav-link" href="signup.html">Signup</a>
+            `;
+      }
+    });
+  </script>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

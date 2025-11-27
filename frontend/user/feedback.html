@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <title>Leave Feedback</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #F0EBD8;
+            color: #1D2D44;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: #FFFFFF;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 25px;
+        }
+
+        /* Star Rating CSS */
+        .rating {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .rating input {
+            display: none;
+        }
+
+        .rating label {
+            font-size: 2rem;
+            color: #ccc;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .rating input:checked~label,
+        .rating label:hover,
+        .rating label:hover~label {
+            color: #ffc107;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            min-height: 120px;
+            font-family: inherit;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #1D2D44;
+            color: #F0EBD8;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Feedback for <span id="serviceName">Service</span></h2>
+        <p>Please rate your experience</p>
+        <form id="feedbackForm">
+            <div class="rating">
+                <input type="radio" id="star5" name="rating" value="5" /><label for="star5" class="fas fa-star"></label>
+                <input type="radio" id="star4" name="rating" value="4" /><label for="star4" class="fas fa-star"></label>
+                <input type="radio" id="star3" name="rating" value="3" /><label for="star3" class="fas fa-star"></label>
+                <input type="radio" id="star2" name="rating" value="2" /><label for="star2" class="fas fa-star"></label>
+                <input type="radio" id="star1" name="rating" value="1" /><label for="star1" class="fas fa-star"></label>
+            </div>
+            <textarea id="comment" placeholder="Any additional comments? (Optional)"></textarea>
+            <button type="submit">Submit Feedback</button>
+        </form>
+    </div>
+    <script src="../JS/feedback.js"></script>
+    <script src="../JS/main.js"></script>
+</body>
+
+</html>

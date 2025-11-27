@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track My Tokens</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-image: url('https://images.pexels.com/photos/39396/hourglass-time-hours-sand-39396.jpeg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: -1;
+    }
+
+    .content-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .navbar {
+      background: #1d2d44;
+      color: #fff;
+      padding: 12px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #748cab;
+    }
+
+    .navbar h2 {
+      margin: 0;
+      font-size: 1.6rem;
+      font-weight: bold;
+    }
+
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar ul li a,
+    .navbar ul li button {
+      color: #fff;
+      text-decoration: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    .navbar ul li a:hover,
+    .navbar ul li button:hover {
+      color: #748cab;
+    }
+
+    .welcome {
+      text-align: center;
+      padding: 40px 20px 20px;
+      color: white;
+    }
+
+    .welcome h1 {
+      font-size: 2.5rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .notice-box {
+      background: rgba(220, 53, 69, 0.2);
+      border: 1px solid #dc3545;
+      color: #dc3545;
+      text-align: center;
+      padding: 15px;
+      margin: 0 auto 30px auto;
+      border-radius: 8px;
+      max-width: 800px;
+      font-weight: bold;
+    }
+
+    .tokens {
+      flex: 1;
+      padding: 0 20px 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .token-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 25px;
+    }
+
+    .token-card {
+      background: rgba(29, 45, 68, 0.8);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+      color: #f8f9fa;
+      border: 1px solid rgba(116, 140, 171, 0.5);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .token-card-content {
+      flex: 1;
+    }
+
+    .cancel-btn {
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 15px;
+      align-self: flex-end;
+      font-weight: bold;
+    }
+
+    .cancel-btn:hover {
+      background-color: #c82333;
+    }
+
+    .status-message {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 12px;
+      border-radius: 8px;
+      text-align: center;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    footer {
+      background-color: #0D1321;
+      color: #F0EBD8;
+      text-align: center;
+      padding: 15px;
+      border-top: 2px solid #1d2d44;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="overlay"></div>
+  <div class="content-wrap">
+    <nav class="navbar">
+      <h2>GovQueue</h2>
+      <ul>
+        <li><a href="user_dashboard.html"><i class="fas fa-th-large"></i> Dashboard</a></li>
+        <li><a href="profile.html"><i class="fas fa-user"></i> Profile</a></li>
+        <li><a href="user_dashboard.html"><i class="fas fa-ticket-alt"></i> Book Token</a></li>
+        <li><a class="nav-link" href="reqd_docs.html">Required Documents</a></li>
+        <li><a class="nav-link" href="public_display.html">Public Display</a></li>
+        <li><button id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button></li>
+      </ul>
+    </nav>
+
+    <header class="welcome">
+      <h1>Welcome, <span id="userName"></span></h1>
+      <p>Here is the real-time status of your booked tokens:</p>
+    </header>
+
+    <section class="tokens">
+      <div id="tokenList" class="token-list">
+      </div>
+    </section>
+
+    <div id="noticeContainer">
+    </div>
+  </div>
+
+  <footer>
+    <span id="live-clock"></span> | &copy; 2025 GovQueue | All Rights Reserved
+  </footer>
+
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <script src="../JS/track_status.js"></script>
+  <script src="../JS/main.js"></script>
+</body>
+
+</html>

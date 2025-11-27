@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GovQueue - Contact Messages</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #F0EBD8;
+      color: #1D2D44;
+      display: flex;
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: #0D1321;
+      color: #F0EBD8;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      position: fixed;
+    }
+
+    .sidebar .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      padding: 30px 25px;
+      text-align: center;
+      border-bottom: 1px solid #1D2D44;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 20px 0;
+      margin: 0;
+      flex-grow: 1;
+    }
+
+    .sidebar ul li a {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px 25px;
+      text-decoration: none;
+      color: #F0EBD8;
+      font-size: 1.1rem;
+      transition: background-color 0.3s, padding-left 0.3s;
+    }
+
+    .sidebar ul li a:hover,
+    .sidebar ul li .active {
+      background-color: #1D2D44;
+      padding-left: 30px;
+    }
+
+    .sidebar .logout-btn {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 20px 25px;
+      text-decoration: none;
+      color: #F0EBD8;
+      font-size: 1.1rem;
+      background-color: #3E5C76;
+      border: none;
+      width: 100%;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .main-container {
+      margin-left: 250px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .main-content {
+      padding: 40px;
+      flex-grow: 1;
+    }
+
+    footer {
+      background-color: #0D1321;
+      color: #F0EBD8;
+      text-align: center;
+      padding: 15px;
+    }
+
+    .header h1 {
+      margin: 0 0 30px 0;
+      font-size: 2.5rem;
+    }
+
+    .message-card {
+      background: #FFFFFF;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      margin-bottom: 20px;
+    }
+
+    .message-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #DEE2E6;
+      padding-bottom: 10px;
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="sidebar">
+    <div class="logo">GovQueue</div>
+    <ul>
+      <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+      <li><a href="manage_staff.html"><i class="fas fa-users-cog"></i> Manage Staff</a></li>
+      <li><a href="token_status.html"><i class="fas fa-ticket-alt"></i> Token Status</a></li>
+      <li><a href="view_feedback.html"><i class="fas fa-star"></i> View Feedback</a></li>
+      <li><a href="announcements.html"><i class="fas fa-bullhorn"></i> Announcements</a></li>
+      <li><a href="contact_messages.html" class="active"><i class="fas fa-envelope"></i> Contact Messages</a></li>
+    </ul>
+    <button class="logout-btn" onclick="localStorage.clear(); window.location.href='admin_login.html';">
+      <i class="fas fa-sign-out-alt"></i> Logout
+    </button>
+  </div>
+
+  <div class="main-container">
+    <div class="main-content">
+      <div class="header">
+        <h1>Contact Form Messages</h1>
+      </div>
+      <div id="messageList">
+      </div>
+    </div>
+    <footer class="footer-bottom">
+      <span id="live-clock"></span> | &copy; 2025 GovQueue | All Rights Reserved
+    </footer>
+  </div>
+
+  <script src="../JS/admin_contact.js"></script>
+  <script src="../JS/main.js"></script>
+</body>
+
+</html>

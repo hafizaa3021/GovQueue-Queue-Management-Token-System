@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GovQueue - Staff Dashboard</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #F0EBD8;
+      color: #1D2D44;
+    }
+
+    nav {
+      background: #0D1321;
+      color: #F0EBD8;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 25px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav .logo {
+      font-size: 1.6rem;
+      font-weight: bold;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li {
+      margin-left: 20px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #F0EBD8;
+    }
+
+    .nav-buttons a {
+      margin-left: 15px;
+      padding: 7px 16px;
+      background: #3E5C76;
+      border-radius: 5px;
+      color: #F0EBD8;
+      text-decoration: none;
+    }
+
+    .dashboard-container {
+      max-width: 1200px;
+      margin: 50px auto;
+      padding: 0 20px;
+    }
+
+    .greeting {
+      margin-bottom: 20px;
+    }
+
+    .date-selector {
+      margin-bottom: 30px;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .service-card {
+      background: #DEE2E6;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .service-card button {
+      margin-top: 10px;
+      padding: 10px;
+      width: 100%;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      color: white;
+      font-weight: bold;
+    }
+
+    .message-btn {
+      background: #17a2b8;
+    }
+
+    .on-hold-btn {
+      background: #fd7e14;
+    }
+
+    .resume-btn {
+      background: #20c997;
+    }
+
+    .call-next {
+      background: #28A745;
+    }
+
+    .no-show {
+      background: #DC3545;
+    }
+
+    .completed {
+      background: #0D1321;
+    }
+
+    .section-divider {
+      border-top: 2px solid #748CAB;
+      margin: 40px 0;
+    }
+
+    .counters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .counter-card {
+      background: #FFFFFF;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding: 15px;
+      background: #1D2D44;
+      color: #F0EBD8;
+    }
+
+    .status-controls {
+      margin-top: 15px;
+      padding: 10px;
+      background: #fff;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .status-btn {
+      padding: 8px 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      cursor: pointer;
+      background: #f0f0f0;
+      font-weight: bold;
+    }
+
+    .status-btn.active {
+      background: #28A745;
+      color: white;
+      border-color: #28A745;
+    }
+
+    #statusBreakBtn.active {
+      background: #ffc107;
+      color: black;
+      border-color: #ffc107;
+    }
+
+    #statusClosedBtn.active {
+      background: #dc3545;
+      color: white;
+      border-color: #dc3545;
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <div class="logo">GovQueue</div>
+    <ul>
+      <li><a href="staff_dashboard.html">Dashboard</a></li>
+      <li><a href="staff_profile.html">Profile</a></li>
+    </ul>
+    <div class="nav-buttons">
+      <a href="staff_login.html" onclick="localStorage.clear()">Logout</a>
+    </div>
+  </nav>
+
+  <div class="dashboard-container">
+    <div class="greeting">
+      <h2 id="staffGreeting">Welcome, Staff Member!</h2>
+      <div class="status-controls">
+        <span>Your Status:</span>
+        <button id="statusActiveBtn" class="status-btn active" onclick="updateStatus('Active')">Active</button>
+        <button id="statusBreakBtn" class="status-btn" onclick="updateStatus('Break')">Break</button>
+        <button id="statusClosedBtn" class="status-btn" onclick="updateStatus('Closed')">Closed</button>
+      </div>
+    </div>
+    <div class="date-selector">
+      <label for="queueDate">Select Date:</label>
+      <input type="date" id="queueDate">
+    </div>
+    <h3>Manage Your Service Queue (<span id="queueCount" style="color: #3E5C76;">0</span> users waiting)</h3>
+    <div class="services-grid" id="servicesGrid"></div>
+    <div class="section-divider"></div>
+    <h3>All Service Counters (Live View)</h3>
+    <div class="counters-grid" id="allCountersGrid"></div>
+  </div>
+
+  <footer class="footer-bottom">
+    <span id="live-clock"></span> | &copy; 2025 GovQueue | All Rights Reserved
+  </footer>
+
+  <script src="../JS/staff_dashboard.js"></script>
+  <script src="../JS/main.js"></script>
+</body>
+
+</html>

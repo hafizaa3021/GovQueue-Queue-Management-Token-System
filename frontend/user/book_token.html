@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <title>GovQueue - Book Token</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #F0EBD8;
+      color: #1D2D44;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .content-wrap {
+      flex: 1;
+    }
+
+    nav {
+      background: #0D1321;
+      color: #F0EBD8;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 25px;
+    }
+
+    nav .logo {
+      font-size: 1.6rem;
+      font-weight: bold;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li {
+      margin-left: 20px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #F0EBD8;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      background: #1D2D44;
+      color: #F0EBD8;
+      padding: 30px;
+      border-radius: 15px;
+    }
+
+    form label {
+      display: block;
+      margin: 15px 0 5px 0;
+    }
+
+    form input[type="text"],
+    form input[type="email"],
+    form input[type="date"] {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+
+    form input[readonly] {
+      background: #748CAB;
+      color: white;
+    }
+
+    form button[type="submit"] {
+      width: 100%;
+      padding: 12px;
+      background: #3E5C76;
+      border: none;
+      border-radius: 5px;
+      color: #F0EBD8;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    footer {
+      background-color: #0D1321;
+      color: #F0EBD8;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding: 15px;
+      background: #1D2D44;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="content-wrap">
+    <nav>
+      <div class="logo">GovQueue</div>
+      <ul>
+        <li><a href="user_dashboard.html">Dashboard</a></li>
+        <li><a href="profile.html">Profile</a></li>
+        <li><a href="reqd_docs.html">Required Documents</a></li>
+        <li><button id="logoutBtn" style="background:none; border:none; color:#F0EBD8; cursor:pointer;">Logout</button>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="container">
+      <h2>Book Your Token</h2>
+      <form id="bookingForm">
+        <label>Service</label>
+        <h3 id="serviceName">Loading Service...</h3>
+        <label>Name</label>
+        <input type="text" id="userName" readonly>
+        <label>Email</label>
+        <input type="email" id="userEmail" readonly>
+        <label>Date</label>
+        <input type="date" id="bookingDate" required>
+        <button type="submit">Confirm Booking</button>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-bottom">
+      <span id="live-clock"></span> | &copy; 2025 GovQueue | All Rights Reserved
+    </div>
+  </footer>
+
+  <script src="../JS/book_token.js"></script>
+  <script src="../JS/main.js"></script>
+</body>
+
+</html>

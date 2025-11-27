@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GovQueue - Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body {
+            background: #f8f9fa;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: #495057;
+            padding: 0.8rem 1.5rem;
+        }
+
+        .navbar-brand {
+            color: white;
+            font-weight: 700;
+        }
+
+        .nav-link {
+            color: white;
+            margin-left: 15px;
+            text-decoration: none;
+        }
+
+        .login-card {
+            max-width: 450px;
+            margin: 80px auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px 25px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background: #495057;
+            border-radius: 10px;
+            width: 100%;
+            border: none;
+        }
+
+        .content-wrap {
+            flex: 1;
+        }
+
+        footer {
+            background-color: #0D1321;
+            color: #F0EBD8;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding: 15px;
+            background: #1D2D44;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content-wrap">
+        <nav class="navbar navbar-expand-lg">
+            <a class="navbar-brand" href="index.html">GovQueue</a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="index.html">Home</a>
+                <a class="nav-link" href="signup.html">Sign Up</a>
+                <a class="nav-link" href="reqd_docs.html">Required Documents</a>
+            </div>
+        </nav>
+        <div class="login-card">
+            <h2>Login</h2>
+            <form id="loginForm">
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="email" placeholder="Email Address" required>
+                    <label for="email"><i class="bi bi-envelope-fill me-2"></i>Email Address</label>
+                </div>
+                <div class="form-floating mb-4">
+                    <input type="password" class="form-control" id="password" placeholder="Password" required>
+                    <label for="password"><i class="bi bi-lock-fill me-2"></i>Password</label>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Login</button>
+            </form>
+            <p class="mt-3 text-center">Don't have an account? <a href="signup.html">Sign Up</a></p>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-bottom">
+            <span id="live-clock"></span> | &copy; 2025 GovQueue | All Rights Reserved
+        </div>
+    </footer>
+    <script src="../JS/user_login.js"></script>
+    <script src="../JS/main.js"></script>
+</body>
+
+</html>

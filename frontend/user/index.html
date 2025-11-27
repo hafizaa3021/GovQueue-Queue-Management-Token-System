@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GovQueue - Home</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #F0EBD8;
+      color: #1D2D44;
+    }
+
+    /* Navbar */
+    nav {
+      background-color: #0D1321;
+      color: #F0EBD8;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 25px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav .logo {
+      font-size: 1.6rem;
+      font-weight: bold;
+      color: #F0EBD8;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li {
+      margin-left: 20px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #F0EBD8;
+      font-size: 1rem;
+    }
+
+    nav ul li a:hover {
+      color: #748CAB;
+    }
+
+    .nav-buttons a {
+      margin-left: 15px;
+      padding: 7px 16px;
+      background: #3E5C76;
+      border-radius: 5px;
+      color: #F0EBD8;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    .nav-buttons a:hover {
+      background: #748CAB;
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      text-align: center;
+      color: #F0EBD8;
+    }
+
+    .hero img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      filter: brightness(60%);
+    }
+
+    .hero-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .hero-text h1 {
+      font-size: 2.8rem;
+      margin-bottom: 15px;
+    }
+
+    .hero-text p {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+    }
+
+    .hero-text a {
+      background: #3E5C76;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      color: #F0EBD8;
+      font-weight: bold;
+    }
+
+    /* Why Choose Us */
+    .why-choose {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      padding: 50px;
+      text-align: center;
+    }
+
+    .why-choose div {
+      background: #1D2D44;
+      color: #F0EBD8;
+      padding: 25px;
+      border-radius: 10px;
+      transition: transform 0.2s ease-in-out, background 0.3s;
+    }
+
+    .why-choose div:hover {
+      transform: translateY(-5px);
+      background: #3E5C76;
+    }
+
+    /* How It Works */
+    .how-it-works {
+      padding: 50px;
+      background: #1D2D44;
+      color: #F0EBD8;
+      text-align: center;
+      border-radius: 10px;
+      margin: 0 50px;
+    }
+
+    .steps {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .steps div {
+      background: #3E5C76;
+      color: #F0EBD8;
+      padding: 25px;
+      border-radius: 10px;
+      width: 220px;
+      transition: background 0.3s;
+    }
+
+    .steps div:hover {
+      background: #748CAB;
+    }
+
+    /* Contact Section */
+    .contact {
+      background: #1D2D44;
+      color: #F0EBD8;
+      padding: 50px 20px;
+      text-align: center;
+      border-radius: 10px;
+      max-width: 800px;
+      margin: 50px auto;
+    }
+
+    .contact form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .contact .input-group {
+      position: relative;
+    }
+
+    .contact input,
+    .contact textarea {
+      padding: 12px 12px 12px 40px;
+      border: 1px solid #748CAB;
+      border-radius: 8px;
+      font-size: 1rem;
+      background: #F0EBD8;
+      color: #1D2D44;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .contact textarea {
+      padding-top: 12px;
+      resize: none;
+    }
+
+    .contact .input-group i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #3E5C76;
+    }
+
+    .contact button {
+      background: #3E5C76;
+      color: #F0EBD8;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .contact button:hover {
+      background: #748CAB;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #0D1321;
+      color: #F0EBD8;
+    }
+
+    footer h4 {
+      color: #3E5C76;
+      margin-bottom: 15px;
+    }
+
+    footer a {
+      color: #748CAB;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-top {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      padding: 30px;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding: 15px;
+      background: #1D2D44;
+      color: #F0EBD8;
+    }
+
+    @media(max-width:900px) {
+      .why-choose {
+        grid-template-columns: 1fr;
+      }
+
+      .steps {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <div class="logo">GovQueue</div>
+    <div class="nav-buttons">
+      <a href="login.html">Login</a>
+      <a href="signup.html">Signup</a>
+    </div>
+
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="reqd_docs.html">Required Docs</a></li>
+      <li><a href="public_display.html">Public Display</a></li>
+      <li><a href="#contact">Contact Us</a></li>
+    </ul>
+
+    <div class="nav-buttons">
+      <a href="#" onclick="promptForLogin('staff'); return false;">Staff</a>
+      <a href="#" onclick="promptForLogin('admin'); return false;">Admin</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <img src="https://images.pexels.com/photos/761295/pexels-photo-761295.jpeg" alt="Government Queue">
+    <div class="hero-text">
+      <h1>Welcome to GovQueue</h1>
+      <p>Book tokens, track status, and save hours of waiting time at government offices.</p>
+      <a href="signup.html">Get Started</a>
+    </div>
+  </section>
+
+  <section class="why-choose">
+    <div>
+      <h3>⏳ Save Time</h3>
+      <p>Book tokens online and skip long queues.</p>
+    </div>
+    <div>
+      <h3>📱 Easy Access</h3>
+      <p>Track token status and updates anytime.</p>
+    </div>
+    <div>
+      <h3>✅ Hassle-Free</h3>
+      <p>Clear process with required documents listed.</p>
+    </div>
+  </section>
+
+  <section class="how-it-works">
+    <h2>How It Works</h2>
+    <div class="steps">
+      <div>
+        <h3>Step 1</h3>
+        <p>Signup & Login</p>
+      </div>
+      <div>
+        <h3>Step 2</h3>
+        <p>Book Token</p>
+      </div>
+      <div>
+        <h3>Step 3</h3>
+        <p>Visit Office & Get Service</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <h2>Contact Us</h2>
+    <p>Have questions? Get in touch with us.</p>
+    <form>
+      <div class="input-group">
+        <i class="fa fa-user"></i>
+        <input type="text" placeholder="Your Name" required>
+      </div>
+      <div class="input-group">
+        <i class="fa fa-envelope"></i>
+        <input type="email" placeholder="Your Email" required>
+      </div>
+      <div class="input-group">
+        <i class="fa fa-comment"></i>
+        <textarea rows="4" placeholder="Your Message" required></textarea>
+      </div>
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
+
+  <footer>
+    <div class="footer-top">
+      <div style="flex: 1; min-width: 200px; margin: 10px;">
+        <h4>GovQueue</h4>
+        <p>Smart queue management system for government offices. Save time, avoid long queues, and manage services
+          easily.</p>
+      </div>
+
+      <div style="flex: 1; min-width: 200px; margin: 10px;">
+        <h4>Quick Links</h4>
+        <ul style="list-style: none; padding: 0;">
+          <li><a href="index.html">Home</a></li>
+
+          <li><a href="reqd_docs.html">Required Docs</a></li>
+          <li><a href="#contact">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <div style="flex: 1; min-width: 200px; margin: 10px;">
+        <h4>Contact Info</h4>
+        <p>Email: support@govqueue.com</p>
+        <p>Phone: +91 98765 43210</p>
+        <p>Address: Government Complex, Mumbai, India</p>
+        <div>
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span id="live-clock"></span> | &copy; 2025 GovQueue | All Rights Reserved
+    </div>
+  </footer>
+
+  <script src="../JS/main.js"></script>
+
+  <script>
+    function promptForLogin(role) {
+      const adminPass = 'admin123##';
+      const staffPass = 'staff123##';
+      let enteredPassword;
+
+      if (role === 'admin') {
+        enteredPassword = prompt('Enter the Admin access password:');
+        if (enteredPassword === adminPass) {
+          window.location.href = '../admin/admin_login.html';
+        } else if (enteredPassword !== null) { // Prevents alert on "Cancel"
+          alert('Incorrect password!');
+        }
+      } else if (role === 'staff') {
+        enteredPassword = prompt('Enter the Staff access password:');
+        if (enteredPassword === staffPass) {
+          window.location.href = '../staff/staff_login.html';
+        } else if (enteredPassword !== null) {
+          alert('Incorrect password!');
+        }
+      }
+    }
+  </script>
+
+</body>
+
+</html>

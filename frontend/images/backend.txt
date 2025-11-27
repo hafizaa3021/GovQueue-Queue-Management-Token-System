@@ -1,0 +1,125 @@
+Perfect! Let’s plan the backend architecture for your GovQueue project using Node.js, Express.js, and MongoDB, keeping all your frontend dashboards and public display in mind.
+
+1. Project Structure
+govqueue/
+│
+├─ backend/
+│   ├─ config/
+│   │   └─ db.js                # MongoDB connection
+│   ├─ controllers/
+│   │   ├─ userController.js
+│   │   ├─ staffController.js
+│   │   └─ adminController.js
+│   ├─ models/
+│   │   ├─ User.js
+│   │   ├─ Staff.js
+│   │   ├─ Admin.js
+│   │   └─ Token.js
+│   ├─ routes/
+│   │   ├─ userRoutes.js
+│   │   ├─ staffRoutes.js
+│   │   └─ adminRoutes.js
+│   ├─ middleware/
+│   │   └─ auth.js              # Authentication middleware
+│   ├─ server.js
+│   └─ package.json
+│
+├─ public/                      # Frontend pages (HTML, CSS, JS)
+│   ├─ user/
+│   ├─ staff/
+│   ├─ admin/
+│   └─ public_display.html
+
+2. Core Models
+User
+
+Fields: name, email, password (hashed), phone, token history
+
+Actions: signup, login, book token, track token
+
+Staff
+
+Fields: name, username, password, assigned services
+
+Actions: login, call next token, mark absent/no-show, process token
+
+Admin
+
+Fields: username, password
+
+Actions: login, manage staff, view analytics, assign services
+
+Token
+
+Fields: tokenNumber, service, userId, status (pending/processing/completed), assignedCounter, bookingTime
+
+Actions: create, update, assign counter, mark complete
+
+3. Backend Routes (API)
+User Routes
+
+POST /api/users/signup → create new user
+
+POST /api/users/login → login
+
+POST /api/users/book-token → book a token
+
+GET /api/users/my-tokens → view user’s token history
+
+GET /api/users/token-status/:id → track specific token
+
+Staff Routes
+
+POST /api/staff/login → staff login
+
+GET /api/staff/assigned-tokens → list tokens for their service
+
+PUT /api/staff/next-token → call next token
+
+PUT /api/staff/no-show/:tokenId → mark no-show
+
+PUT /api/staff/process/:tokenId → mark as processed
+
+Admin Routes
+
+POST /api/admin/login → admin login
+
+GET /api/admin/staff → view all staff
+
+POST /api/admin/staff → add new staff
+
+PUT /api/admin/staff/:id → update staff
+
+DELETE /api/admin/staff/:id → delete staff
+
+GET /api/admin/analytics → tokens served, average wait time, etc.
+
+4. Middleware
+
+auth.js: Verify JWT token for user, staff, admin
+
+roleCheck.js: Ensure correct role is accessing API (user/staff/admin)
+
+5. Token Logic
+
+Each service has its own queue counter.
+
+Token number increments per service.
+
+Staff can call next, mark absent/no-show, process token.
+
+Public display shows currently serving token + total queue.
+
+Optional: Use Socket.io later for live updates without refreshing.
+
+6. Next Steps
+
+Setup MongoDB connection in config/db.js.
+
+Create models (User, Staff, Admin, Token).
+
+Create routes and connect them to controllers.
+
+Test each route using Postman before connecting frontend.
+
+Integrate frontend forms with API (signup, login, book token, dashboards).

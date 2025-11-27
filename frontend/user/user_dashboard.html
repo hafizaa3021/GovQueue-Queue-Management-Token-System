@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GovQueue - User Dashboard</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #F0EBD8;
+      color: #1D2D44;
+      display: flex;
+    }
+
+    /* Sidebar Navigation */
+    .sidebar {
+      width: 250px;
+      background-color: #0D1321;
+      color: #F0EBD8;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      position: fixed;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      padding: 30px 25px;
+      text-align: center;
+      border-bottom: 1px solid #1D2D44;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 20px 0;
+      margin: 0;
+      flex-grow: 1;
+    }
+
+    .sidebar ul li a {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px 25px;
+      text-decoration: none;
+      color: #F0EBD8;
+      font-size: 1.1rem;
+      transition: background-color 0.3s, padding-left 0.3s;
+    }
+
+    .sidebar ul li a:hover,
+    .sidebar ul li .active {
+      background-color: #1D2D44;
+      padding-left: 30px;
+    }
+
+    .sidebar .logout-btn {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 20px 25px;
+      text-decoration: none;
+      color: #F0EBD8;
+      font-size: 1.1rem;
+      background-color: #3E5C76;
+      border: none;
+      width: 100%;
+      cursor: pointer;
+      text-align: left;
+      transition: background-color 0.3s;
+    }
+
+    .sidebar .logout-btn:hover {
+      background-color: #c82333;
+    }
+
+    /* Main Content Area */
+    .main-container {
+      margin-left: 250px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .main-content {
+      padding: 40px;
+      flex-grow: 1;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+
+    .header h2 {
+      margin: 0;
+      font-size: 2.2rem;
+    }
+
+    .analytics {
+      display: flex;
+      gap: 20px;
+    }
+
+    .analytics .card {
+      background-color: #1D2D44;
+      color: #F0EBD8;
+      padding: 20px 25px;
+      border-radius: 10px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .analytics .card i {
+      font-size: 1.8rem;
+    }
+
+    .analytics .card p {
+      font-size: 2rem;
+      margin: 0;
+      font-weight: bold;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      padding-bottom: 10px;
+      border-bottom: 3px solid #748CAB;
+      margin-bottom: 25px;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+    }
+
+    .service-card {
+      background: #FFFFFF;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .service-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .service-card .service-icon {
+      font-size: 2.5rem;
+      color: #3E5C76;
+      margin-bottom: 15px;
+    }
+
+    .service-card h3 {
+      margin: 0 0 10px 0;
+      font-size: 1.2rem;
+    }
+
+    .service-card .service-desc {
+      font-size: 0.9rem;
+      color: #6c757d;
+      flex-grow: 1;
+      margin-bottom: 20px;
+    }
+
+    .service-card button {
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: #3E5C76;
+      color: #F0EBD8;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    .service-card button:hover {
+      background-color: #1D2D44;
+    }
+
+    .booked-tokens {
+      background: #FFFFFF;
+      padding: 15px 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .booked-tokens .token-item {
+      padding: 15px 0;
+      border-bottom: 1px solid #DEE2E6;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .booked-tokens .token-item:last-child {
+      border-bottom: none;
+    }
+
+    .booked-tokens .token-status {
+      font-weight: bold;
+      padding: 5px 10px;
+      border-radius: 5px;
+      background-color: #eee;
+      font-size: 0.9rem;
+    }
+
+    .wait-time {
+      font-style: italic;
+      color: #6c757d;
+    }
+
+    footer {
+      background-color: #0D1321;
+      color: #F0EBD8;
+      text-align: center;
+      padding: 15px;
+    }
+
+    #announcement-banner {
+      background-color: #ffc107;
+      color: #333;
+      text-align: center;
+      padding: 15px;
+      font-weight: bold;
+      border-radius: 8px;
+      margin-bottom: 25px;
+      border: 1px solid #e0a800;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="sidebar">
+    <div class="logo">GovQueue</div>
+    <ul>
+      <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+      <li><a href="user_dashboard.html" class="active"><i class="fas fa-th-large"></i> Dashboard</a></li>
+      <li><a href="profile.html"><i class="fas fa-user"></i> Profile</a></li>
+      <li><a href="track_status.html"><i class="fas fa-search"></i> Track Status</a></li>
+      <li><a class="nav-link" href="reqd_docs.html">Required Documents</a></li>
+      <li><a class="nav-link" href="public_display.html">Public Display</a></li>
+    </ul>
+    <button class="logout-btn" onclick="localStorage.clear(); window.location.href='login.html';">
+      <i class="fas fa-sign-out-alt"></i> Logout
+    </button>
+  </div>
+
+  <div class="main-container">
+    <div class="main-content">
+      <div class="header">
+        <h2 id="userGreeting">Hi User, welcome back!</h2>
+        <div class="analytics">
+          <div class="card">
+            <i class="fas fa-ticket-alt"></i>
+            <div><strong>Active Tokens</strong>
+              <p id="totalTokens">0</p>
+            </div>
+          </div>
+          <div class="card">
+            <i class="fas fa-check-circle"></i>
+            <div><strong>Completed</strong>
+              <p id="completedTokens">0</p>
+            </div>
+          </div>
+          <div class="card">
+            <i class="fas fa-times-circle"></i>
+            <div><strong>Cancelled</strong>
+              <p id="cancelledTokens">0</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px;">
+        <h3 class="section-title">Book a New Token</h3>
+        <div class="services-grid" id="servicesGrid">
+        </div>
+      </div>
+
+      <div style="margin-top: 40px;">
+        <h3 class="section-title">Your Active Tokens</h3>
+        <div class="booked-tokens" id="userTokens">
+          <p>Loading your tokens...</p>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer-bottom">
+      <span id="live-clock"></span> | &copy; 2025 GovQueue | All Rights Reserved
+    </footer>
+  </div>
+
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <script src="../JS/user_dashboard.js"></script>
+  <script src="../JS/main.js"></script>
+</body>
+
+</html>
