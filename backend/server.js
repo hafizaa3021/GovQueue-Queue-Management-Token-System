@@ -42,7 +42,7 @@ io.on('connection', (socket) => {
 app.use(cors());
 app.use(express.json());
 app.set('io', io);
-mongoose.connect('mongodb+srv://govqueue_user:hN%21hPw%406VpyT%40pg@queueproject.kpemdq2.mongodb.net/govqueue?retryWrites=true&w=majority', {
+mongoose.connect('mongo_uri', {
         serverSelectionTimeoutMS: 30000, 
         socketTimeoutMS: 45000, 
     }).then(() => console.log('MongoDB connected'))
